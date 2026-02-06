@@ -1,3 +1,4 @@
+edición funcionando
 import streamlit as st
 import pandas as pd
 import math
@@ -149,3 +150,5 @@ for i, country in enumerate(selected_countries):
             delta=growth,
             delta_color=delta_color
         )
+        Commit changes
+
