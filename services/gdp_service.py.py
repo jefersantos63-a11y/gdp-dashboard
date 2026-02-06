@@ -2,8 +2,8 @@ import pandas as pd
 from pathlib import Path
 
 def obtener_datos_del_PIB():
-    ruta = Path(__file__).parent.parent / "data" / "datos_pib.csv"
-    df = pd.read_csv(ruta)
+    ruta = Path(__file__).parent.parent / "data" / "gdp_data.csv"
+  df = pd.read_csv(ruta)
 
     df = df.melt(
         id_vars=["Country Name", "Country Code", "Indicator Name", "Indicator Code"],
