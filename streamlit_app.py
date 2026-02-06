@@ -1,28 +1,14 @@
 import streamlit as st
-import pandas as pd
-import math
-from pathlib import Path
-import matplotlib.pyplot as plt
+from services.gdp_service import obtener_datos_del_PIB
+
 @st.cache_data
-def obtener_datos_del_PIB():
-    # Ruta al archivo CSV
-    ruta = Path(__file__).parent / "datos" / "datos_pib.csv"
+def cargar_datos():
+    return obtener_datos_del_PIB()
 
-    # Leer el CSV
-    df = pd.read_csv(ruta)
+df = cargar_datos()
 
-    # Transformar de formato ancho a largo
-    df = df.melt(
-        id_vars=["Country Name", "Country Code", "Indicator Name", "Indicator Code"],
-        var_name="year",
-        value_name="gdp"
-    )
+st.write(df.head())
 
-    # Limpiar datos
-    df = df.dropna(subset=["gdp"])
-    df["year"] = df["year"].astype(int)
-
-    return df
 
 
 
