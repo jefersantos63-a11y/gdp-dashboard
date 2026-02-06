@@ -13,26 +13,32 @@ st.set_page_config(
 
 # -----------------------------------------------------------------------------
 # Declare some useful functions.
-
 @st.cache_data
-def get_gdp_data():
-    """Grab GDP data from a CSV file.
+def obtener_datos_del_PIB():
+    # Ruta del archivo CSV
+    ruta_csv = Path("datos/datos_pib.csv")
 
-    This uses caching to avoid having to read the file every time. If we were
-    reading from an HTTP endpoint instead of a file, it's a good idea to set
-    a maximum age to the cache with the TTL argument: @st.cache_data(ttl='1d')
-    """
+    # Leer el archivo
+    df = pd.read_csv(ruta_csv)
 
-    # Instead of a CSV on disk, you could read from an HTTP endpoint here too.
-    DATA_FILENAME = Path(__file__).parent/'data/gdp_data.csv'
-    raw_gdp_df = pd.read_csv(DATA_FILENAME)
+    # Renombrar columnas clave
+    df = df.rename(columns={
+        "Nombre del país": "pais",
+        "Código del país": "codigo_pais"
+    })
 
-    MIN_YEAR = 1960
-    MAX_YEAR = 2022
+    # Pasar de formato ancho a formato largo
+    df_largo = df.melt(
+        id_vars=["pais", "codigo_pais"],
+        var_name="anio",
+        value_name="pib"
+    )
 
-    # The data above has columns like:
-    # - Country Name
-    # - Country Code
+    # Convertir año a número
+    df_largo["anio"] = pd.to_numeric(df_largo["anio"], errors="coerce")
+
+    return df_largo
+
     # - [Stuff I don't care about]
     # - GDP for 1960
     # - GDP for 1961
@@ -152,4 +158,7 @@ for i, country in enumerate(selected_countries):
             delta_color=delta_color
         )
         Commit changes
+        datos = obtener_datos_del_PIB()
+st.write(datos.head(10))
+
 
