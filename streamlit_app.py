@@ -158,7 +158,32 @@ for i, country in enumerate(selected_countries):
             delta_color=delta_color
         )
         Commit changes
-        datos = obtener_datos_del_PIB()
-st.write(datos.head(10))
+        @st.cache_data
+def obtener_datos_del_PIB():
+    # Leer el CSV
+    df = pd.read_csv("datos/datos_pib.csv")
+
+    # Renombrar columnas principales
+    df = df.rename(columns={
+        "Country Name": "country",
+        "Country Code": "country_code"
+    })
+
+    # Eliminar columnas que no necesitamos
+    df = df.drop(columns=["Indicator Name", "Indicator Code"])
+
+    # Pasar de formato ancho a largo
+    df_largo = df.melt(
+        id_vars=["country", "country_code"],
+        var_name="year",
+        value_name="gdp"
+    )
+
+    # Convertir year a número
+    df_largo["year"] = pd.to_numeric(df_largo["year"], errors="coerce")
+
+    return df_largo
+datos = obtener_datos_del_PIB()
+st.dataframe(datos.head(20))
 
 
