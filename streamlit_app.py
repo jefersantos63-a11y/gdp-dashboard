@@ -3,6 +3,27 @@ import pandas as pd
 import math
 from pathlib import Path
 import matplotlib.pyplot as plt
+@st.cache_data
+def obtener_datos_del_PIB():
+    # Ruta al archivo CSV
+    ruta = Path(__file__).parent / "datos" / "datos_pib.csv"
+
+    # Leer el CSV
+    df = pd.read_csv(ruta)
+
+    # Transformar de formato ancho a largo
+    df = df.melt(
+        id_vars=["Country Name", "Country Code", "Indicator Name", "Indicator Code"],
+        var_name="year",
+        value_name="gdp"
+    )
+
+    # Limpiar datos
+    df = df.dropna(subset=["gdp"])
+    df["year"] = df["year"].astype(int)
+
+    return df
+
 
 
 # Set the title and favicon that appear in the Browser's tab bar.
