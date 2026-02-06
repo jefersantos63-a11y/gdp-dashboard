@@ -12,6 +12,10 @@ def cargar_datos():
 
 df = cargar_datos()
 
+st.subheader("📊 Datos del PIB")
+st.dataframe(df)
+
+
 # Selector de país
 paises = sorted(df["Country Name"].unique())
 pais_seleccionado = st.selectbox(
