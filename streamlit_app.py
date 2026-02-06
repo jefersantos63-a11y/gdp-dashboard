@@ -185,5 +185,34 @@ def obtener_datos_del_PIB():
     return df_largo
 datos = obtener_datos_del_PIB()
 st.dataframe(datos.head(20))
+def load_data():
+@st.cache_data
+def load_data():
+    # 1. Leer el CSV
+    df = pd.read_csv("data/gdp_data.csv")
+
+    # 2. Renombrar columnas clave
+    df = df.rename(columns={
+        "Country Name": "country",
+        "Country Code": "country_code"
+    })
+
+    # 3. Eliminar columnas que no sirven
+    df = df.drop(columns=["Indicator Name", "Indicator Code"])
+
+    # 4. Transformar de formato ancho a largo
+    df = df.melt(
+        id_vars=["country", "country_code"],
+        var_name="year",
+        value_name="gdp"
+    )
+
+    # 5. Asegurar tipos correctos
+    df["year"] = pd.to_numeric(df["year"], errors="coerce")
+    df["gdp"] = pd.to_numeric(df["gdp"], errors="coerce")
+
+    return df
+df = load_data()
+st.dataframe(df.head(20))
 
 
