@@ -39,13 +39,16 @@ df_pais_largo["year"] = df_pais_largo["year"].astype(int)
 df_pais = df[df["Country Name"] == pais_seleccionado]
 
 # Tomamos solo las columnas que son años
-years = [c for c in df_pais.columns if str(c).isdigit()]
+years = []
+gdp_values = []
 
-gdp_values = df_pais.iloc[0, 4:].astype(float)
+for year in df_pais.columns:
+    if str(year).isdigit():
+        value = df_pais[year].values[0]
+        if value is not None:
+            years.append(int(year))
+            gdp_values.append(value)
 
-chart_df = pd.DataFrame({
-    "Año": years,
-    "PIB": gdp_values
 }).set_index("Año")
 
 st.line_chart(chart_df)
