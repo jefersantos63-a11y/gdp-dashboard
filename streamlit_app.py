@@ -49,6 +49,3 @@ chart_df = pd.DataFrame({
 
 st.line_chart(chart_df)
 
-)
-
-)
