@@ -39,7 +39,8 @@ df_pais_largo["year"] = df_pais_largo["year"].astype(int)
 df_pais = df[df["Country Name"] == pais_seleccionado]
 
 # Tomamos solo las columnas que son años
-years = df_pais.columns[4:]  # desde 1960 en adelante
+years = [c for c in df_pais.columns if str(c).isdigit()]
+
 gdp_values = df_pais.iloc[0, 4:].astype(float)
 
 chart_df = pd.DataFrame({
