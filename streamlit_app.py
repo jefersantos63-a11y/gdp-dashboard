@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
-from services.gdp_service import obtener_datos_del_PIB
+from gdp_service import obtener_datos_del_PIB
+
 
 st.set_page_config(page_title="GDP Dashboard", layout="wide")
 
