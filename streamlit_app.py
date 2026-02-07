@@ -40,5 +40,8 @@ df_pais_largo["year"] = df_pais_largo["year"].astype(int)
 st.subheader(f"Evolución del PIB – {pais_seleccionado}")
 
 st.line_chart(
-    df_pais.set_index("year")["gdp"]
+    st.line_chart(
+    df_pais_largo.set_index("year")["gdp"]
+)
+
 )
