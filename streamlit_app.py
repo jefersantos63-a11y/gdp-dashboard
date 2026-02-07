@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+from services.gdp_service import obtener_datos_del_PIB
 from gdp_service import obtener_datos_del_PIB
 
 
