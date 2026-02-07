@@ -48,8 +48,9 @@ for year in df_pais.columns:
         if value is not None:
             years.append(int(year))
             gdp_values.append(value)
-
+chart_df = pd.DataFrame({
+    "Año": years,
+    "PIB": gdp_values
 }).set_index("Año")
-
 st.line_chart(chart_df)
 
