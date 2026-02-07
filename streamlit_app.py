@@ -36,12 +36,19 @@ df_pais_largo = df_pais_largo.dropna(subset=["gdp"])
 df_pais_largo["year"] = df_pais_largo["year"].astype(int)
 
 
-# Gráfica
-st.subheader(f"Evolución del PIB – {pais_seleccionado}")
+df_pais = df[df["Country Name"] == pais_seleccionado]
 
-st.line_chart(
-    st.line_chart(
-    df_pais_largo.set_index("year")["gdp"]
+# Tomamos solo las columnas que son años
+years = df_pais.columns[4:]  # desde 1960 en adelante
+gdp_values = df_pais.iloc[0, 4:].astype(float)
+
+chart_df = pd.DataFrame({
+    "Año": years,
+    "PIB": gdp_values
+}).set_index("Año")
+
+st.line_chart(chart_df)
+
 )
 
 )
